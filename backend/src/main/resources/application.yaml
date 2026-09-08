@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: equilibra-backend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/equilibra_db
+    username: equilibra_user
+    password: equilibra_pass
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # SMTP apontando para o container local do Mailpit
+  mail:
+    host: localhost
+    port: 1025
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+app:
+  mail:
+    from: nao-responda@equilibra.com.br
+  frontend:
+    url: http://localhost:4200

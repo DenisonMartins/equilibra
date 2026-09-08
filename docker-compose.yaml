@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: equilibra-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: equilibra
+      POSTGRES_USER: equilibra_user
+      POSTGRES_PASSWORD: equilibra_pass
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name:  equilibra-mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  loki:
+    image: grafana/loki:3.0.0
+    container_name: equilibra_loki
+    restart: unless-stopped
+    ports:
+      - "3100:3100"
+    command: --config.file=/etc/loki/local-config.yaml
+
+volumes:
+  pgdata:
