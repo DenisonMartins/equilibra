@@ -1,6 +1,5 @@
-package br.com.mmtech.equilibra.backend.config;
+package br.com.mmtech.equilibra.backend.config.seguranca;
 
-import br.com.mmtech.equilibra.backend.config.seguranca.JwtAutenticacaoFilter;
 import br.com.mmtech.equilibra.backend.usuario.entity.Perfil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,10 +33,15 @@ public class SegurancaConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // Documentação Swagger / OpenAPI pública
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
                         // Rotas públicas de autenticação e aceite de convite
                         .requestMatchers("/api/autenticacao/**").permitAll()
                         .requestMatchers("/api/admin/**").hasAuthority(Perfil.ROLE_ADMIN.name())
-                        // Em desenvolvimento liberamos as demais para validação inicial dos endpoints
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

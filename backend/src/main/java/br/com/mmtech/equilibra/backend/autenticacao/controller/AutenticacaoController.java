@@ -8,6 +8,10 @@ import br.com.mmtech.equilibra.backend.login.dto.LoginRequest;
 import br.com.mmtech.equilibra.backend.login.dto.LoginResponse;
 import br.com.mmtech.equilibra.backend.usuario.entity.Usuario;
 import br.com.mmtech.equilibra.backend.usuario.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,6 +23,7 @@ import java.util.Locale;
 @RestController
 @RequestMapping("/api/autenticacao")
 @RequiredArgsConstructor
+@Tag(name = "Autenticação", description = "Endpoint para autenticação, ativação de convite e validação de tokens")
 public class AutenticacaoController {
 
     private final ConviteService conviteService;
@@ -26,16 +31,33 @@ public class AutenticacaoController {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
+    @Operation(summary = "Validar token de convite",
+            description = "Verifica se o token de convite informado na URL ainda é válido e não expirou.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Resultado da validação do token")
+    })
     @GetMapping("validar-token")
     public ValidarTokenResponse validarToken(@RequestParam String token) {
         return conviteService.validarToken(token);
     }
 
+    @Operation(summary = "Aceitar convite e cadastrar senha",
+            description = "Consome o convite e cria a conta do novo usuário.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Conta ativada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Convite expirado, token inválido ou dados incorretos")
+    })
     @PostMapping("aceitar-convite")
     public void aceitarConvite(@RequestBody @Valid AceiteConviteRequest dto) {
         conviteService.aceitarConvite(dto);
     }
 
+    @Operation(summary = "Realizar login no sistema",
+            description = "Autentica usuário com e-mail e senha e retorna o token JWT.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Autenticado com sucesso"),
+            @ApiResponse(responseCode = "401", description = "Credenciais inválidas")
+    })
     @PostMapping("login")
     public LoginResponse login(@RequestBody @Valid LoginRequest dto) {
         Usuario usuario = usuarioRepository.findByEmail(dto.email().toLowerCase(Locale.ROOT).trim())

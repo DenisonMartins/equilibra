@@ -6,7 +6,7 @@ spring:
     name: equilibra-backend
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/equilibra_db
+    url: jdbc:postgresql://localhost:5434/equilibra
     username: equilibra_user
     password: equilibra_pass
     driver-class-name: org.postgresql.Driver
@@ -32,9 +32,9 @@ spring:
 
 app:
   mail:
-    from: nao-responda@equilibra.com.br
+    from: techmichaelmartins@gmail.com
   frontend:
     url: http://localhost:4200
   jwt:
-    secret: secret
+    secret: w7IQvO4P9xd7PXJvZ8TkTCS5uQTLnykyJRDcr6PK0fk=
     expiration-ms: 86400000 # 24 horas
