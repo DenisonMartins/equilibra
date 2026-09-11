@@ -18,7 +18,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/admin/convites")
+@RequestMapping("/admin/convites")
 @RequiredArgsConstructor
 @Tag(name = "Administração - Convites", description = "Gestão de emissão e acompanhamento de convites (Exclusivo Administradores)")
 public class ConviteController {
@@ -39,7 +39,7 @@ public class ConviteController {
 
     @Operation(summary = "Listar convites paginados com Specification",
             description = "Consulta convites com filtros opcionais por e-mail, status e intervalo de datas.")
-    @PostMapping("listagem")
+    @PostMapping("/listagem")
     public Page<ConviteResponse> listar(@RequestBody ConviteFilter conviteFilter,
                                         @PageableDefault(size = 15, sort = Convite_.CRIADO_EM, direction = Sort.Direction.DESC) Pageable pageable) {
         return conviteService.listar(conviteFilter, pageable);

@@ -10,7 +10,7 @@ import br.com.mmtech.equilibra.backend.usuario.repository.UsuarioRepository;
 import br.com.mmtech.equilibra.backend.convite.dto.AceiteConviteRequest;
 import br.com.mmtech.equilibra.backend.convite.dto.ConviteFilter;
 import br.com.mmtech.equilibra.backend.convite.dto.ConviteResponse;
-import br.com.mmtech.equilibra.backend.convite.dto.ValidarTokenResponse;
+import br.com.mmtech.equilibra.backend.convite.dto.ValidarConviteResponse;
 import br.com.mmtech.equilibra.backend.convite.service.ConviteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,17 +41,17 @@ public class ConviteServiceImpl implements ConviteService {
             throw new IllegalArgumentException("Já existe um usuário cadastrado com esse email.");
         }
 
-        String token = UUID.randomUUID().toString().replace("-","");
+        String hash = UUID.randomUUID().toString().replace("-","");
 
         Convite convite = repository.save(Convite.builder()
                 .email(email)
-                .token(token)
+                .hash(hash)
                 .expiraEm(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).plusHours(48))
                 .utilizado(false)
                 .build());
         log.info("Convite criado com sucesso. ID {}, email {}", convite.getId(), convite.getEmail());
 
-        emailService.enviarEmailConvite(convite.getEmail(), convite.getToken());
+        emailService.enviarEmailConvite(convite.getEmail(), convite.getHash());
         return ConviteResponse.of(convite);
     }
 
@@ -64,29 +64,20 @@ public class ConviteServiceImpl implements ConviteService {
 
     @Override
     @Transactional(readOnly = true)
-    public ValidarTokenResponse validarToken(String token) {
-        return repository.findByToken(token)
-                .filter(convite -> !convite.isUtilizado() && convite.getExpiraEm().isAfter(LocalDateTime.now()))
-                .map(convite -> new ValidarTokenResponse(true, convite.getEmail()))
-                .orElse(new ValidarTokenResponse(false, null));
+    public ValidarConviteResponse validarHash(String hash) {
+        return repository.findByHash(hash)
+                .filter(convite -> !convite.isUtilizado() && convite.getExpiraEm().isAfter(LocalDateTime.now(ZoneId.of("America/Sao_Paulo"))))
+                .map(convite -> new ValidarConviteResponse(true, convite.getEmail()))
+                .orElse(new ValidarConviteResponse(false, null));
     }
 
     @Override
     public void aceitarConvite(AceiteConviteRequest aceiteConviteRequest) {
-        Convite convite = repository.findByToken(aceiteConviteRequest.token())
-                .orElseThrow(() -> new IllegalArgumentException("Token de convite não localizado"));
+        Convite convite = repository.findByHash(aceiteConviteRequest.hash())
+                .orElseThrow(() -> new IllegalArgumentException("Hash de convite não localizado"));
 
-        if (convite.isUtilizado()) {
-            throw new IllegalArgumentException("Este convite já foi utilizado");
-        }
-
-        if (convite.getExpiraEm().isBefore(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")))) {
-            throw new IllegalArgumentException("Este convite está expirado.");
-        }
-
-        if (usuarioRespository.existsByEmail(convite.getEmail())) {
-            throw new IllegalArgumentException("Usuário já cadastrado");
-        }
+        validarConviteUtilizadoOuExpirado(convite);
+        validarUsuarioExistente(convite);
 
         Usuario usuario = Usuario.builder()
                 .nome(aceiteConviteRequest.nome())
@@ -101,5 +92,21 @@ public class ConviteServiceImpl implements ConviteService {
         repository.save(convite);
 
         log.info("Conta ativada com sucesso para o usuário {}", usuario.getEmail());
+    }
+
+    private void validarUsuarioExistente(Convite convite) {
+        if (usuarioRespository.existsByEmail(convite.getEmail())) {
+            throw new IllegalArgumentException("Usuário já cadastrado");
+        }
+    }
+
+    private static void validarConviteUtilizadoOuExpirado(Convite convite) {
+        if (convite.isUtilizado()) {
+            throw new IllegalArgumentException("Este convite já foi utilizado");
+        }
+
+        if (convite.getExpiraEm().isBefore(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")))) {
+            throw new IllegalArgumentException("Este convite está expirado.");
+        }
     }
 }

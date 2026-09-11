@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
@@ -29,16 +28,16 @@ public class JwtService {
     }
 
     public String gerarToken(Usuario usuario) {
-        LocalDate agora = LocalDate.now(SAO_PAULO_ZONE_ID);
-        LocalDate validade = agora.plus(expiracao, ChronoUnit.MILLIS);
+        Instant agora = Instant.now();
+        Instant validade = agora.plus(expiracao, ChronoUnit.MILLIS);
 
         return Jwts.builder()
                 .subject(usuario.getId().toString())
                 .claim("email", usuario.getEmail())
                 .claim("nome", usuario.getNome())
                 .claim("perfil", usuario.getPerfil().name())
-                .issuedAt(Date.from(agora.atStartOfDay(SAO_PAULO_ZONE_ID).toInstant()))
-                .expiration(Date.from(validade.atStartOfDay(SAO_PAULO_ZONE_ID).toInstant()))
+                .issuedAt(Date.from(agora))
+                .expiration(Date.from(validade))
                 .signWith(secretKey)
                 .compact();
     }

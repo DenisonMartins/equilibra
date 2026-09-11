@@ -1,12 +1,11 @@
 package br.com.mmtech.equilibra.backend.convite;
 
+import br.com.mmtech.equilibra.backend.AbstractIntegrationTest;
 import br.com.mmtech.equilibra.backend.TestcontainersConfiguration;
 import br.com.mmtech.equilibra.backend.convite.dto.AceiteConviteRequest;
 import br.com.mmtech.equilibra.backend.convite.dto.ConviteResponse;
-import br.com.mmtech.equilibra.backend.convite.dto.ValidarTokenResponse;
-import br.com.mmtech.equilibra.backend.convite.entity.Convite;
+import br.com.mmtech.equilibra.backend.convite.dto.ValidarConviteResponse;
 import br.com.mmtech.equilibra.backend.convite.service.ConviteService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,7 @@ import org.springframework.context.annotation.Import;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Import(TestcontainersConfiguration.class)
-@SpringBootTest
-class ConviteIT {
+class ConviteIT extends AbstractIntegrationTest {
 
     @Autowired
     ConviteService conviteService;
@@ -32,14 +29,14 @@ class ConviteIT {
         assertThat(convite.token()).isNotBlank();
         assertThat(convite.utilizado()).isFalse();
 
-        ValidarTokenResponse validacao = conviteService.validarToken(convite.token());
+        ValidarConviteResponse validacao = conviteService.validarHash(convite.token());
         assertThat(validacao.valido()).isTrue();
         assertThat(validacao.email()).isEqualTo(email);
 
         AceiteConviteRequest novoUsuario = new AceiteConviteRequest(convite.token(), "Novo usuário teste", "SenhaSegura@123");
         conviteService.aceitarConvite(novoUsuario);
 
-        ValidarTokenResponse validacaoAposUso = conviteService.validarToken(convite.token());
+        ValidarConviteResponse validacaoAposUso = conviteService.validarHash(convite.token());
         assertThat(validacaoAposUso.valido()).isFalse();
     }
 }

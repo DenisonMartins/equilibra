@@ -40,8 +40,8 @@ public class SegurancaConfig {
                                 "/swagger-ui.html"
                         ).permitAll()
                         // Rotas públicas de autenticação e aceite de convite
-                        .requestMatchers("/api/autenticacao/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasAuthority(Perfil.ROLE_ADMIN.name())
+                        .requestMatchers("/autenticacao/**").permitAll()
+                        .requestMatchers("/admin/**").hasAuthority(Perfil.ROLE_ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

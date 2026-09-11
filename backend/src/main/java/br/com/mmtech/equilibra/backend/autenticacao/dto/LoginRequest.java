@@ -1,4 +1,4 @@
-package br.com.mmtech.equilibra.backend.login.dto;
+package br.com.mmtech.equilibra.backend.autenticacao.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -26,7 +26,7 @@ public class Convite {
 
     @Column(nullable = false, unique = true)
     @EqualsAndHashCode.Include
-    private String token;
+    private String hash;
 
     @Column(nullable = false)
     private LocalDateTime expiraEm;

@@ -1,11 +1,11 @@
 package br.com.mmtech.equilibra.backend.autenticacao.controller;
 
+import br.com.mmtech.equilibra.backend.autenticacao.dto.LoginRequest;
+import br.com.mmtech.equilibra.backend.autenticacao.dto.LoginResponse;
 import br.com.mmtech.equilibra.backend.config.seguranca.JwtService;
 import br.com.mmtech.equilibra.backend.convite.dto.AceiteConviteRequest;
-import br.com.mmtech.equilibra.backend.convite.dto.ValidarTokenResponse;
+import br.com.mmtech.equilibra.backend.convite.dto.ValidarConviteResponse;
 import br.com.mmtech.equilibra.backend.convite.service.ConviteService;
-import br.com.mmtech.equilibra.backend.login.dto.LoginRequest;
-import br.com.mmtech.equilibra.backend.login.dto.LoginResponse;
 import br.com.mmtech.equilibra.backend.usuario.entity.Usuario;
 import br.com.mmtech.equilibra.backend.usuario.repository.UsuarioRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Locale;
 
 @RestController
-@RequestMapping("/api/autenticacao")
+@RequestMapping("/autenticacao")
 @RequiredArgsConstructor
-@Tag(name = "Autenticação", description = "Endpoint para autenticação, ativação de convite e validação de tokens")
+@Tag(name = "Autenticação", description = "Endpoint para autenticação, ativação de convite e validação de convites")
 public class AutenticacaoController {
 
     private final ConviteService conviteService;
@@ -31,23 +31,23 @@ public class AutenticacaoController {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    @Operation(summary = "Validar token de convite",
-            description = "Verifica se o token de convite informado na URL ainda é válido e não expirou.")
+    @Operation(summary = "Validar hash de convite",
+            description = "Verifica se o hash de convite informado na URL ainda é válido e não expirou.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Resultado da validação do token")
+            @ApiResponse(responseCode = "200", description = "Resultado da validação do hash")
     })
-    @GetMapping("validar-token")
-    public ValidarTokenResponse validarToken(@RequestParam String token) {
-        return conviteService.validarToken(token);
+    @GetMapping("/validar-hash")
+    public ValidarConviteResponse validarHash(@RequestParam String hash) {
+        return conviteService.validarHash(hash);
     }
 
     @Operation(summary = "Aceitar convite e cadastrar senha",
             description = "Consome o convite e cria a conta do novo usuário.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Conta ativada com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Convite expirado, token inválido ou dados incorretos")
+            @ApiResponse(responseCode = "400", description = "Convite expirado, hash inválido ou dados incorretos")
     })
-    @PostMapping("aceitar-convite")
+    @PostMapping("/aceitar-convite")
     public void aceitarConvite(@RequestBody @Valid AceiteConviteRequest dto) {
         conviteService.aceitarConvite(dto);
     }
@@ -58,7 +58,7 @@ public class AutenticacaoController {
             @ApiResponse(responseCode = "200", description = "Autenticado com sucesso"),
             @ApiResponse(responseCode = "401", description = "Credenciais inválidas")
     })
-    @PostMapping("login")
+    @PostMapping("/login")
     public LoginResponse login(@RequestBody @Valid LoginRequest dto) {
         Usuario usuario = usuarioRepository.findByEmail(dto.email().toLowerCase(Locale.ROOT).trim())
                 .orElseThrow(() -> new BadCredentialsException("Credenciais inválidas"));
@@ -72,6 +72,6 @@ public class AutenticacaoController {
         }
 
         String token = jwtService.gerarToken(usuario);
-        return new LoginResponse(token, usuario.getNome(), usuario.getEmail(), usuario.getPerfil().name());
+        return new LoginResponse(token, usuario.getNome(), usuario.getEmail(), usuario.getPerfil());
     }
 }

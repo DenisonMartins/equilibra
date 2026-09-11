@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record AceiteConviteRequest(
-        @NotBlank(message = "O token é obrigatório")
-        String token,
+        @NotBlank(message = "O hash é obrigatório")
+        String hash,
 
         @NotBlank(message = "O nome é obrigatório")
         String nome,

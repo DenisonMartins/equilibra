@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.Optional;
 
 public interface ConviteRepository extends JpaRepository<Convite, Long>, JpaSpecificationExecutor<Convite> {
-    Optional<Convite> findByToken(String token);
+    Optional<Convite> findByHash(String token);
 }
