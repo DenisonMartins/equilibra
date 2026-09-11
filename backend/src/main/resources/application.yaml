@@ -35,3 +35,6 @@ app:
     from: nao-responda@equilibra.com.br
   frontend:
     url: http://localhost:4200
+  jwt:
+    secret: secret
+    expiration-ms: 86400000 # 24 horas

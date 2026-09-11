@@ -23,6 +23,7 @@
         <openpdf.version>3.0.5</openpdf.version>
         <logstash-logback-encoder.version>9.0</logstash-logback-encoder.version>
         <hibernate-processor.version>7.4.7.Final</hibernate-processor.version>
+        <jjwt.version>0.13.0</jjwt.version>
     </properties>
 
     <dependencies>
@@ -57,7 +58,6 @@
             <scope>provided</scope>
         </dependency>
 
-
         <!--   Emails (Convites)     -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -88,6 +88,23 @@
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
             <version>${logstash-logback-encoder.version}</version>
+        </dependency>
+
+        <!--   JWT     -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+         <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jjwt.version}</version>
         </dependency>
 
         <!-- Testes & Testcontainers -->

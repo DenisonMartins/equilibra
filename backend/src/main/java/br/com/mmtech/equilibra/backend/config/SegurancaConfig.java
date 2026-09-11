@@ -1,13 +1,17 @@
 package br.com.mmtech.equilibra.backend.config;
 
+import br.com.mmtech.equilibra.backend.config.seguranca.JwtAutenticacaoFilter;
+import br.com.mmtech.equilibra.backend.usuario.entity.Perfil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -24,16 +28,19 @@ public class SegurancaConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAutenticacaoFilter jwtFilter) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // Rotas públicas de autenticação e aceite de convite
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/autenticacao/**").permitAll()
+                        .requestMatchers("/api/admin/**").hasAuthority(Perfil.ROLE_ADMIN.name())
                         // Em desenvolvimento liberamos as demais para validação inicial dos endpoints
-                        .anyRequest().permitAll()
-                );
+                        .anyRequest().authenticated()
+                )
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
