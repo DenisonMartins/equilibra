@@ -1,0 +1,32 @@
+<div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 backdrop-blur-sm shadow-sm mb-6">
+  <h2 class="text-sm font-semibold text-slate-300 mb-3 uppercase tracking-wider">Enviar Novo Convite</h2>
+  <form (ngSubmit)="submeter()" class="flex flex-col sm:flex-row gap-3">
+    <div class="relative flex-1">
+      <input
+        type="email"
+        [formControl]="emailControl"
+        placeholder="Digite o e-mail corporativo..."
+        class="w-full bg-slate-950 border border-slate-700/60 rounded-lg px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+      />
+      @if (emailControl.invalid && emailControl.touched) {
+        <span class="text-xs text-rose-400 absolute -bottom-5 left-1">Informe um e-mail válido</span>
+      }
+    </div>
+    <button
+      type="submit"
+      [disabled]="emailControl.invalid || enviando()"
+      class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm"
+    >
+      @if (enviando()) {
+        <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+        <span>Enviando...</span>
+      } @else {
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+          <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+        </svg>
+        <span>Enviar Convite</span>
+      }
+    </button>
+  </form>
+</div>

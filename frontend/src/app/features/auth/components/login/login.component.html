@@ -1,0 +1,61 @@
+<div class="min-h-screen bg-slate-950 flex items-center justify-center p-4">
+  <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-6 shadow-2xl">
+    <!-- Logo e Título -->
+    <div class="text-center space-y-1">
+      <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 font-black text-xl mb-2">
+        EQ
+      </div>
+      <h1 class="text-2xl font-bold text-white tracking-tight">Equilibra</h1>
+      <p class="text-xs text-slate-400">Controle financeiro inteligente & consultoria de IA</p>
+    </div>
+
+    @if (mensagemErro()) {
+      <div class="p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg text-rose-400 text-xs">
+        {{ mensagemErro() }}
+      </div>
+    }
+
+    <!-- Formulário -->
+    <form (ngSubmit)="autenticar()" class="space-y-4">
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">E-MAIL</label>
+        <input
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="seu.email@empresa.com"
+          required
+          class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-emerald-500 transition" />
+      </div>
+
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">SENHA</label>
+        <input
+          type="password"
+          [(ngModel)]="senha"
+          name="senha"
+          placeholder="Sua senha de acesso"
+          required
+          class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-emerald-500 transition" />
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="carregando()"
+        class="w-full py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-slate-950 text-xs font-semibold rounded-lg transition cursor-pointer shadow-lg shadow-emerald-500/10 flex items-center justify-center gap-2">
+        @if (carregando()) {
+          <span class="animate-spin text-sm">↻</span>
+          <span>Entrando...</span>
+        } @else {
+          <span>Entrar no Sistema</span>
+        }
+      </button>
+    </form>
+
+    <div class="pt-2 text-center">
+      <p class="text-[11px] text-slate-500">
+        Ainda não possui conta? Solicite um convite a um administrador.
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="bg-slate-900/60 border border-slate-800 rounded-xl overflow-hidden backdrop-blur-sm shadow-sm">
+  <div class="p-4 border-b border-slate-800 flex justify-between items-center">
+    <h3 class="font-semibold text-slate-200">Convites Emitidos</h3>
+    <button
+      (click)="atualizar.emit()"
+      class="text-xs text-slate-400 hover:text-emerald-400 flex items-center gap-1.5 transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+      </svg>
+      Atualizar
+    </button>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+      <tr class="border-b border-slate-800 text-[11px] uppercase tracking-wider text-slate-400 bg-slate-950/40">
+        <th class="py-3.5 px-4 font-semibold">E-mail Convidado</th>
+        <th class="py-3.5 px-4 font-semibold">Data de Envio</th>
+        <th class="py-3.5 px-4 font-semibold">Validade</th>
+        <th class="py-3.5 px-4 font-semibold text-center">Status</th>
+      </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-800/60 text-sm">
+        @if (carregando()) {
+          <tr>
+            <td colspan="4" class="py-8 text-center text-slate-500">
+              <div class="flex justify-center items-center gap-2">
+                <span class="w-4 h-4 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></span>
+                <span>Carregando dados...</span>
+              </div>
+            </td>
+          </tr>
+        } @else if (itens().length === 0) {
+          <tr>
+            <td colspan="4" class="py-12 text-center text-slate-500">
+              Nenhum convite emitido até o momento.
+            </td>
+          </tr>
+        } @else {
+          @for (item of itens(); track item.id) {
+            <tr class="hover:bg-slate-800/30 transition-colors">
+              <td class="py-3 px-4 font-medium text-slate-200">{{ item.email }}</td>
+              <td class="py-3 px-4 text-slate-400">{{ item.criado_em | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td class="py-3 px-4 text-slate-400">{{ item.expira_em | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td class="py-3 px-4 text-center">
+                @if (item.utilizado) {
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        Utilizado
+                      </span>
+                } @else {
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        Pendente
+                      </span>
+                }
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginação -->
+  <app-paginacao
+    [paginaAtual]="paginaAtual()"
+    [totalPaginas]="totalPaginas()"
+    [carregando]="carregando()"
+    (mudarPagina)="trocarPagina.emit($event)"
+    />
+</div>

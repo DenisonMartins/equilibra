@@ -1,0 +1,59 @@
+<div class="min-h-screen bg-slate-950 flex items-center justify-center p-4">
+  <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-6 shadow-2xl">
+    <div>
+      <h1 class="text-2xl font-bold text-white tracking-tight">Ativar Conta</h1>
+      <p class="text-xs text-slate-400 mt-1">Defina seus dados de acesso para ingressar no Equilibra.</p>
+    </div>
+
+    @if (carregandoValidacao()) {
+      <p class="text-xs text-slate-400">Validando convite com os servidores...</p>
+    } @else if (!conviteValido()) {
+      <div class="p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs">
+        Este token de convite é inválido, expirou ou já foi utilizado. Solicite um novo convite ao administrador.
+      </div>
+    } @else {
+      <form (ngSubmit)="concluirAtivacao()" class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">E-MAIL</label>
+          <input
+            type="text"
+            [value]="emailConvidado()"
+            disabled
+            class="w-full px-3 py-2 bg-slate-950/60 border border-slate-800 rounded-lg text-slate-400 text-sm cursor-not-allowed" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">SEU NOME COMPLETO</label>
+          <input
+            type="text"
+            [(ngModel)]="nome"
+            name="nome"
+            required
+            class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-emerald-500 transition" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">CRIAR SENHA</label>
+          <input
+            type="password"
+            [(ngModel)]="senha"
+            name="senha"
+            placeholder="Mínimo 8 caracteres"
+            required
+            class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-emerald-500 transition" />
+        </div>
+
+        @if (erroAtivacao()) {
+          <p class="text-xs text-rose-400">{{ erroAtivacao() }}</p>
+        }
+
+        <button
+          type="submit"
+          [disabled]="salvando()"
+          class="w-full py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-slate-950 text-xs font-semibold rounded-lg transition cursor-pointer shadow-lg shadow-emerald-500/10">
+          {{ salvando() ? 'Ativando...' : 'Concluir Cadastro e Acessar' }}
+        </button>
+      </form>
+    }
+  </div>
+</div>

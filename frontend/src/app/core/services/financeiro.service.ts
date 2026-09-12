@@ -1,20 +1,10 @@
 import { computed, Injectable, signal } from '@angular/core';
-
-export type TipoLancamento = 'RECEITA' | 'DESPESA';
-
-export interface Lancamento {
-  id: number;
-  descricao: string;
-  valor: number;
-  tipo: TipoLancamento;
-  categoria: string;
-  data: string;
-}
+import { Lancamento } from '../models/lancamento.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Financeiro {
+export class FinanceiroService {
   private readonly _lancamentos = signal<Lancamento[]>([
     {
       id: 1,

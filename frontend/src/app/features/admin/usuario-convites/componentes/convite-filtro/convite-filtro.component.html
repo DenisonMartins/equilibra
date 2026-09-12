@@ -1,0 +1,61 @@
+<div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mb-6 backdrop-blur-sm shadow-sm">
+  <form [formGroup]="filtroForm" (ngSubmit)="submeterFiltro()" class="space-y-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-400 mb-1 uppercase tracking-wider">E-mail</label>
+        <input
+          type="text"
+          formControlName="email"
+          placeholder="Filtrar por e-mail..."
+          class="w-full bg-slate-950 border border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors"
+        />
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-400 mb-1 uppercase tracking-wider">Status</label>
+        <select
+          formControlName="utilizado"
+          class="w-full bg-slate-950 border border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors">
+          <option [ngValue]="null">Todos os status</option>
+          <option [ngValue]="false">Pendente</option>
+          <option [ngValue]="true">Utilizado</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-400 mb-1 uppercase tracking-wider">Data de Envio</label>
+        <div class="grid grid-cols-2 gap-2">
+          <input type="date" formControlName="criado_em_inicial" class="w-full bg-slate-950 border border-slate-700/60 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-emerald-500" />
+          <input type="date" formControlName="criado_em_final" class="w-full bg-slate-950 border border-slate-700/60 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-emerald-500" />
+        </div>
+      </div>
+
+      <div class="sm:col-span-2 lg:col-span-2">
+        <label class="block text-xs font-semibold text-slate-400 mb-1 uppercase tracking-wider">Validade (Expiração)</label>
+        <div class="grid grid-cols-2 gap-2">
+          <input type="date" formControlName="expira_em_inicial" class="w-full bg-slate-950 border border-slate-700/60 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-emerald-500" />
+          <input type="date" formControlName="expira_em_final" class="w-full bg-slate-950 border border-slate-700/60 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-emerald-500" />
+        </div>
+      </div>
+
+      <div class="flex items-end gap-2 justify-end">
+        <button
+          type="button"
+          (click)="limpar()"
+          class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium transition-colors">
+          Limpar
+        </button>
+        <button
+          type="submit"
+          class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+          </svg>
+          Filtrar
+        </button>
+      </div>
+
+    </div>
+  </form>
+</div>

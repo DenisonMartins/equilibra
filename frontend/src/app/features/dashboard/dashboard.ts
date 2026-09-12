@@ -1,7 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
-import { Financeiro, TipoLancamento } from '../../core/services/financeiro';
+import { FinanceiroService,  } from '../../core/services/financeiro.service';
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
+import { TipoLancamento } from '../../core/models/lancamento.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +12,7 @@ import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
   styleUrl: './dashboard.scss',
 })
 export class Dashboard {
-  financeiroService = inject(Financeiro);
+  financeiroService = inject(FinanceiroService);
 
   modalAberto = signal(false);
 

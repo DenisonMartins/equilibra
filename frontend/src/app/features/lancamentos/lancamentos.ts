@@ -1,7 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Financeiro, TipoLancamento } from '../../core/services/financeiro';
+import { FinanceiroService,  } from '../../core/services/financeiro.service';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import {TipoLancamento} from "../../core/models/lancamento.model";
 
 @Component({
   selector: 'app-lancamentos',
@@ -11,7 +12,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
   styleUrl: './lancamentos.scss',
 })
 export class Lancamentos {
-  financeiroService = inject(Financeiro);
+  financeiroService = inject(FinanceiroService);
 
   filtroTexto = signal('');
   filtroTipo = signal<'TODOS' | 'RECEITA' | 'DESPESA'>('TODOS');

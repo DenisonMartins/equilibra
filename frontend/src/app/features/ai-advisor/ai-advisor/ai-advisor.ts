@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Financeiro } from '../../../core/services/financeiro';
+import { FinanceiroService } from '../../../core/services/financeiro.service';
 import { AiAdvisorService } from '../../../core/services/ai-advisor.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { AiAdvisorService } from '../../../core/services/ai-advisor.service';
 })
 export class AiAdvisor implements OnInit {
   aiService = inject(AiAdvisorService);
-  financeiroService = inject(Financeiro);
+  financeiroService = inject(FinanceiroService);
 
   ngOnInit(): void {
     if (!this.aiService.diagnostico()) {

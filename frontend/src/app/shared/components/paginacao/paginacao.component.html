@@ -1,0 +1,21 @@
+@if (totalPaginas() > 1) {
+  <div class="p-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+    <span>Página {{ paginaAtual() + 1 }} de {{ totalPaginas() }}</span>
+    <div class="flex gap-1.5">
+      <button
+        type="button"
+        [disabled]="paginaAtual() === 0 || carregando()"
+        (click)="mudarPagina.emit(paginaAtual() - 1)"
+        class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed rounded text-slate-300 transition-colors">
+        Anterior
+      </button>
+      <button
+        type="button"
+        [disabled]="paginaAtual() + 1 >= totalPaginas() || carregando()"
+        (click)="mudarPagina.emit(paginaAtual() + 1)"
+        class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed rounded text-slate-300 transition-colors">
+        Próxima
+      </button>
+    </div>
+  </div>
+}

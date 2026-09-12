@@ -1,23 +1,31 @@
 import { Routes } from '@angular/router';
-import { Login } from './features/auth/login/login';
-import { Shell } from './features/layout/shell/shell';
+import { ShellComponent } from './features/layout/shell/shell.component';
 import { Dashboard } from './features/dashboard/dashboard';
-import { ConviteAceito } from './features/auth/convite-aceito/convite-aceito';
-import { UsuarioConvites } from './features/admin/usuario-convites/usuario-convites';
+import { ConviteAceitoComponent } from './features/auth/components/convite-aceito/convite-aceito.component';
+import { UsuarioConvitesComponent } from './features/admin/usuario-convites/usuario-convites.component';
 import { AiAdvisor } from './features/ai-advisor/ai-advisor/ai-advisor';
 import { Lancamentos } from './features/lancamentos/lancamentos';
+import { adminGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-  { path: 'login', component: Login },
-  { path: 'convite', component: ConviteAceito },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./features/auth/components/login/login.component').then((m) => m.LoginComponent),
+  },
+  { path: 'convite', component: ConviteAceitoComponent },
   {
     path: 'app',
-    component: Shell,
+    component: ShellComponent,
     children: [
       { path: 'dashboard', component: Dashboard },
       { path: 'lancamentos', component: Lancamentos },
-      { path: 'admin/usuarios', component: UsuarioConvites },
       { path: 'consultor-ia', component: AiAdvisor },
+      {
+        path: 'admin/usuarios',
+        component: UsuarioConvitesComponent,
+        canActivate: [adminGuard],
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

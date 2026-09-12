@@ -1,26 +1,12 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Financeiro } from './financeiro';
-
-export interface RecomendacaoIA {
-  titulo: string;
-  categoria: 'ATENCAO' | 'OPORTUNIDADE' | 'SUCESSO';
-  descricao: string;
-  impactoEstimado: string;
-}
-
-export interface DiagnosticoFinanceiro {
-  scoreSaude: number;
-  classificacao: string;
-  resumoGeral: string;
-  mesesReservaEmergencia: number;
-  recomendacoes: RecomendacaoIA[];
-}
+import { FinanceiroService } from './financeiro.service';
+import {DiagnosticoFinanceiro} from "../models/ai.model";
 
 @Injectable({
   providedIn: 'root',
 })
 export class AiAdvisorService {
-  private financeiroService = inject(Financeiro);
+  private financeiroService = inject(FinanceiroService);
 
   private readonly _carregando = signal(false);
   private readonly _diagnostico = signal<DiagnosticoFinanceiro | null>(null);
