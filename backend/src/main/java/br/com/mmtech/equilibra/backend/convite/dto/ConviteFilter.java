@@ -2,18 +2,19 @@ package br.com.mmtech.equilibra.backend.convite.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record ConviteFilter(
         String email,
         @JsonProperty("expira_em_inicial")
-        LocalDateTime expiraEmInicial,
+        LocalDate expiraEmInicial,
         @JsonProperty("expira_em_final")
-        LocalDateTime expiraEmFinal,
+        LocalDate expiraEmFinal,
         @JsonProperty("criado_em_inicial")
-        LocalDateTime criadoEmInicial,
+        LocalDate criadoEmInicial,
         @JsonProperty("criado_em_final")
-        LocalDateTime criadoEmFinal,
+        LocalDate criadoEmFinal,
         Boolean utilizado
 ) {
 }
