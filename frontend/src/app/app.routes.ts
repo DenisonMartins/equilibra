@@ -4,7 +4,7 @@ import { Dashboard } from './features/dashboard/dashboard';
 import { ConviteAceitoComponent } from './features/auth/components/convite-aceito/convite-aceito.component';
 import { UsuarioConvitesComponent } from './features/admin/usuario-convites/usuario-convites.component';
 import { AiAdvisor } from './features/ai-advisor/ai-advisor/ai-advisor';
-import { Lancamentos } from './features/lancamentos/lancamentos';
+import { LancamentosComponent } from './features/lancamentos/lancamentos.component';
 import { adminGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -19,7 +19,7 @@ export const routes: Routes = [
     component: ShellComponent,
     children: [
       { path: 'dashboard', component: Dashboard },
-      { path: 'lancamentos', component: Lancamentos },
+      { path: 'lancamentos', component: LancamentosComponent },
       { path: 'consultor-ia', component: AiAdvisor },
       {
         path: 'admin/usuarios',

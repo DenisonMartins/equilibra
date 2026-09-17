@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FinanceiroService,  } from '../../core/services/financeiro.service';
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
-import { TipoLancamento } from '../../core/models/lancamento.model';
+import { TipoLancamento } from '../lancamentos/models/lancamento.model';
 
 @Component({
   selector: 'app-dashboard',

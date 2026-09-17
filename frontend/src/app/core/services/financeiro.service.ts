@@ -1,5 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { Lancamento } from '../models/lancamento.model';
+import { Lancamento } from '../../features/lancamentos/models/lancamento.model';
 
 @Injectable({
   providedIn: 'root',

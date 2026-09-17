@@ -1,0 +1,53 @@
+<div class="max-w-7xl mx-auto p-6 space-y-6">
+  <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-100 tracking-tight">Gestão de Lançamentos</h1>
+      <p class="text-sm text-slate-400 mt-1">Acompanhe e controle suas receitas, despesas e fluxo financeiro.</p>
+    </div>
+    <div>
+      <button
+        type="button"
+        (click)="abrirModalNovo()"
+        class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        <span>Novo Lançamento</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mensagens de Alerta -->
+  @if (mensagemFeedback()) {
+    <div class="p-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 rounded-lg text-sm flex items-center justify-between">
+      <span>{{ mensagemFeedback() }}</span>
+      <button (click)="mensagemFeedback.set(null)" class="text-emerald-400 hover:text-white">&times;</button>
+    </div>
+  }
+
+  <!-- Cards de Resumo (Receita / Despesa / Saldo) -->
+  <app-lancamento-resumo [resumo]="resumo()" />
+
+  <!-- Painel de Filtros -->
+  <app-lancamento-filtro (filtrar)="onAplicarFiltro($event)" />
+
+  <!-- Tabela de Lançamentos com Paginação -->
+  <app-lancamento-tabela
+    [itens]="lancamentos()"
+    [carregando]="carregando()"
+    [paginaAtual]="pagina()"
+    [totalPaginas]="totalPaginas()"
+    (atualizar)="carregarDados()"
+    (trocarPagina)="onTrocarPagina($event)"
+    (editar)="onEditar($event)"
+    (excluir)="onExcluir($event)"
+  />
+
+  <app-lancamento-form-modal
+    [aberto]="modalAberto()"
+    [lancamentoEdicao]="itemEmEdicao()"
+    [categorias]="categorias()"
+    (salvar)="onSalvarLancamento($event)"
+    (fechar)="fecharModal()"
+  />
+</div>
