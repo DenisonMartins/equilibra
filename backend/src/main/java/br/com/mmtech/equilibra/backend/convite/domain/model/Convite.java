@@ -1,4 +1,4 @@
-package br.com.mmtech.equilibra.backend.convite.entity;
+package br.com.mmtech.equilibra.backend.convite.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;

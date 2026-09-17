@@ -1,6 +1,6 @@
 package br.com.mmtech.equilibra.backend.usuario.repository;
 
-import br.com.mmtech.equilibra.backend.usuario.entity.Usuario;
+import br.com.mmtech.equilibra.backend.usuario.domain.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

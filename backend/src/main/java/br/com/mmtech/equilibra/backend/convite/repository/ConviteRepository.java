@@ -1,6 +1,6 @@
 package br.com.mmtech.equilibra.backend.convite.repository;
 
-import br.com.mmtech.equilibra.backend.convite.entity.Convite;
+import br.com.mmtech.equilibra.backend.convite.domain.model.Convite;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

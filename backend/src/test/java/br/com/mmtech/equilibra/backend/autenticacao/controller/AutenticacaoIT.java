@@ -2,8 +2,8 @@ package br.com.mmtech.equilibra.backend.autenticacao.controller;
 
 import br.com.mmtech.equilibra.backend.AbstractIntegrationTest;
 import br.com.mmtech.equilibra.backend.autenticacao.dto.LoginRequest;
-import br.com.mmtech.equilibra.backend.usuario.entity.Perfil;
-import br.com.mmtech.equilibra.backend.usuario.entity.Usuario;
+import br.com.mmtech.equilibra.backend.usuario.domain.model.Perfil;
+import br.com.mmtech.equilibra.backend.usuario.domain.model.Usuario;
 import br.com.mmtech.equilibra.backend.usuario.repository.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static br.com.mmtech.equilibra.backend.usuario.entity.Perfil.ROLE_ADMIN;
+import static br.com.mmtech.equilibra.backend.usuario.domain.model.Perfil.ROLE_ADMIN;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

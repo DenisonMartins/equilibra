@@ -1,6 +1,6 @@
 package br.com.mmtech.equilibra.backend.config.seguranca;
 
-import br.com.mmtech.equilibra.backend.usuario.entity.Usuario;
+import br.com.mmtech.equilibra.backend.usuario.domain.model.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

@@ -1,4 +1,4 @@
-package br.com.mmtech.equilibra.backend.convite.dto;
+package br.com.mmtech.equilibra.backend.convite.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

@@ -1,6 +1,6 @@
 package br.com.mmtech.equilibra.backend.config.seguranca;
 
-import br.com.mmtech.equilibra.backend.usuario.entity.Perfil;
+import br.com.mmtech.equilibra.backend.usuario.domain.model.Perfil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

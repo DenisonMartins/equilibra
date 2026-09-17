@@ -1,4 +1,4 @@
-package br.com.mmtech.equilibra.backend.usuario.entity;
+package br.com.mmtech.equilibra.backend.usuario.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,8 +1,8 @@
 package br.com.mmtech.equilibra.backend.convite.repository.specifications;
 
-import br.com.mmtech.equilibra.backend.convite.dto.ConviteFilter;
-import br.com.mmtech.equilibra.backend.convite.entity.Convite;
-import br.com.mmtech.equilibra.backend.convite.entity.Convite_;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.ConviteFilter;
+import br.com.mmtech.equilibra.backend.convite.domain.model.Convite;
+import br.com.mmtech.equilibra.backend.convite.domain.model.Convite_;
 import jakarta.persistence.criteria.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class ConviteSpecification {
+public final class ConviteSpecs {
 
-    private ConviteSpecification() {
+    private ConviteSpecs() {
     }
 
     public static Specification<Convite> comFiltro(ConviteFilter conviteFilter) {

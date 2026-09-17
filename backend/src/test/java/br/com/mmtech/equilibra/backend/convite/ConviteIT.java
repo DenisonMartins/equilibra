@@ -1,16 +1,13 @@
 package br.com.mmtech.equilibra.backend.convite;
 
 import br.com.mmtech.equilibra.backend.AbstractIntegrationTest;
-import br.com.mmtech.equilibra.backend.TestcontainersConfiguration;
-import br.com.mmtech.equilibra.backend.convite.dto.AceiteConviteRequest;
-import br.com.mmtech.equilibra.backend.convite.dto.ConviteResponse;
-import br.com.mmtech.equilibra.backend.convite.dto.ValidarConviteResponse;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.AceiteConviteRequest;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.ConviteResponse;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.ValidarConviteResponse;
 import br.com.mmtech.equilibra.backend.convite.service.ConviteService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

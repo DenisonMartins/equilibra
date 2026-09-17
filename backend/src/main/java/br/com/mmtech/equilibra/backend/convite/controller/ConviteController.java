@@ -1,9 +1,9 @@
 package br.com.mmtech.equilibra.backend.convite.controller;
 
-import br.com.mmtech.equilibra.backend.convite.dto.ConviteFilter;
-import br.com.mmtech.equilibra.backend.convite.dto.ConviteResponse;
-import br.com.mmtech.equilibra.backend.convite.dto.ConviteRequest;
-import br.com.mmtech.equilibra.backend.convite.entity.Convite_;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.ConviteFilter;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.ConviteResponse;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.ConviteRequest;
+import br.com.mmtech.equilibra.backend.convite.domain.model.Convite_;
 import br.com.mmtech.equilibra.backend.convite.service.ConviteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

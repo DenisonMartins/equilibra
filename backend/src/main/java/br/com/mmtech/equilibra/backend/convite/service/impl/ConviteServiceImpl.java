@@ -1,16 +1,16 @@
 package br.com.mmtech.equilibra.backend.convite.service.impl;
 
-import br.com.mmtech.equilibra.backend.convite.entity.Convite;
+import br.com.mmtech.equilibra.backend.convite.domain.model.Convite;
 import br.com.mmtech.equilibra.backend.convite.repository.ConviteRepository;
-import br.com.mmtech.equilibra.backend.convite.repository.specifications.ConviteSpecification;
+import br.com.mmtech.equilibra.backend.convite.repository.specifications.ConviteSpecs;
 import br.com.mmtech.equilibra.backend.email.service.EmailService;
-import br.com.mmtech.equilibra.backend.usuario.entity.Perfil;
-import br.com.mmtech.equilibra.backend.usuario.entity.Usuario;
+import br.com.mmtech.equilibra.backend.usuario.domain.model.Perfil;
+import br.com.mmtech.equilibra.backend.usuario.domain.model.Usuario;
 import br.com.mmtech.equilibra.backend.usuario.repository.UsuarioRepository;
-import br.com.mmtech.equilibra.backend.convite.dto.AceiteConviteRequest;
-import br.com.mmtech.equilibra.backend.convite.dto.ConviteFilter;
-import br.com.mmtech.equilibra.backend.convite.dto.ConviteResponse;
-import br.com.mmtech.equilibra.backend.convite.dto.ValidarConviteResponse;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.AceiteConviteRequest;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.ConviteFilter;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.ConviteResponse;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.ValidarConviteResponse;
 import br.com.mmtech.equilibra.backend.convite.service.ConviteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +58,7 @@ public class ConviteServiceImpl implements ConviteService {
     @Override
     @Transactional(readOnly = true)
     public Page<ConviteResponse> listar(ConviteFilter conviteFilter, Pageable pageable) {
-        Specification<Convite> specification = ConviteSpecification.comFiltro(conviteFilter);
+        Specification<Convite> specification = ConviteSpecs.comFiltro(conviteFilter);
         return repository.findAll(specification, pageable).map(ConviteResponse::of);
     }
 

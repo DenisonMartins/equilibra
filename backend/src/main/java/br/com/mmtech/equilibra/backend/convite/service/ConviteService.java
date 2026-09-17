@@ -1,9 +1,9 @@
 package br.com.mmtech.equilibra.backend.convite.service;
 
-import br.com.mmtech.equilibra.backend.convite.dto.AceiteConviteRequest;
-import br.com.mmtech.equilibra.backend.convite.dto.ConviteFilter;
-import br.com.mmtech.equilibra.backend.convite.dto.ConviteResponse;
-import br.com.mmtech.equilibra.backend.convite.dto.ValidarConviteResponse;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.AceiteConviteRequest;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.ConviteFilter;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.ConviteResponse;
+import br.com.mmtech.equilibra.backend.convite.domain.dto.ValidarConviteResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

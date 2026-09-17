@@ -1,6 +1,6 @@
-package br.com.mmtech.equilibra.backend.convite.dto;
+package br.com.mmtech.equilibra.backend.convite.domain.dto;
 
-import br.com.mmtech.equilibra.backend.convite.entity.Convite;
+import br.com.mmtech.equilibra.backend.convite.domain.model.Convite;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
