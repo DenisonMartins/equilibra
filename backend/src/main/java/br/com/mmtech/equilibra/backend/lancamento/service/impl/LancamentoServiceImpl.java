@@ -1,5 +1,6 @@
 package br.com.mmtech.equilibra.backend.lancamento.service.impl;
 
+import br.com.mmtech.equilibra.backend.comum.exception.EntidadeNaoEncontradaException;
 import br.com.mmtech.equilibra.backend.lancamento.domain.dto.LancamentoFiltro;
 import br.com.mmtech.equilibra.backend.lancamento.domain.dto.LancamentoRequest;
 import br.com.mmtech.equilibra.backend.lancamento.domain.dto.LancamentoResponse;
@@ -74,7 +75,7 @@ public class LancamentoServiceImpl implements LancamentoService {
     @Override
     public LancamentoResponse atualizar(Long id, Usuario usuario, LancamentoRequest request) {
         Lancamento lancamento = lancamentoRepository.findByIdAndUsuario(id, usuario)
-                .orElseThrow(() -> new EntityNotFoundException("Lançamento não encontrado"));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Lançamento não encontrado"));
 
         Categoria categoria = buscarCategoriaUsuario(request.categoriaId(), usuario);
 
@@ -92,13 +93,13 @@ public class LancamentoServiceImpl implements LancamentoService {
     @Override
     public void excluir(Long id, Usuario usuario) {
         Lancamento lancamento = lancamentoRepository.findByIdAndUsuario(id, usuario)
-                .orElseThrow(() -> new EntityNotFoundException("Lançamento não encontrado"));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Lançamento não encontrado"));
 
         lancamentoRepository.delete(lancamento);
     }
 
     private Categoria buscarCategoriaUsuario(Long categoriaId, Usuario usuario) {
-        return categoriaRepository.findByIdAndUsuario(categoriaId, usuario)
-                .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+        return categoriaRepository.findByIdAndUsuarioId(categoriaId, usuario.getId())
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Categoria não encontrada"));
     }
 }

@@ -1,11 +1,14 @@
 package br.com.mmtech.equilibra.backend.convite.service.impl;
 
+import br.com.mmtech.equilibra.backend.comum.exception.EntidadeNaoEncontradaException;
 import br.com.mmtech.equilibra.backend.convite.domain.model.Convite;
+import br.com.mmtech.equilibra.backend.convite.exception.ConviteInvalidoException;
 import br.com.mmtech.equilibra.backend.convite.repository.ConviteRepository;
 import br.com.mmtech.equilibra.backend.convite.repository.specifications.ConviteSpecs;
 import br.com.mmtech.equilibra.backend.email.service.EmailService;
 import br.com.mmtech.equilibra.backend.usuario.domain.model.Perfil;
 import br.com.mmtech.equilibra.backend.usuario.domain.model.Usuario;
+import br.com.mmtech.equilibra.backend.usuario.exception.UsuarioCadastradoException;
 import br.com.mmtech.equilibra.backend.usuario.repository.UsuarioRepository;
 import br.com.mmtech.equilibra.backend.convite.domain.dto.AceiteConviteRequest;
 import br.com.mmtech.equilibra.backend.convite.domain.dto.ConviteFilter;
@@ -38,7 +41,7 @@ public class ConviteServiceImpl implements ConviteService {
     @Override
     public ConviteResponse criar(String email) {
         if (usuarioRespository.existsByEmail(email)) {
-            throw new IllegalArgumentException("Já existe um usuário cadastrado com esse email.");
+            throw new UsuarioCadastradoException("Já existe um usuário cadastrado com esse email.");
         }
 
         String hash = UUID.randomUUID().toString().replace("-","");
@@ -74,7 +77,7 @@ public class ConviteServiceImpl implements ConviteService {
     @Override
     public void aceitarConvite(AceiteConviteRequest aceiteConviteRequest) {
         Convite convite = repository.findByHash(aceiteConviteRequest.hash())
-                .orElseThrow(() -> new IllegalArgumentException("Hash de convite não localizado"));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Hash de convite não localizado"));
 
         validarConviteUtilizadoOuExpirado(convite);
         validarUsuarioExistente(convite);
@@ -96,17 +99,17 @@ public class ConviteServiceImpl implements ConviteService {
 
     private void validarUsuarioExistente(Convite convite) {
         if (usuarioRespository.existsByEmail(convite.getEmail())) {
-            throw new IllegalArgumentException("Usuário já cadastrado");
+            throw new UsuarioCadastradoException("Usuário já cadastrado");
         }
     }
 
     private static void validarConviteUtilizadoOuExpirado(Convite convite) {
         if (convite.isUtilizado()) {
-            throw new IllegalArgumentException("Este convite já foi utilizado");
+            throw new ConviteInvalidoException("Este convite já foi utilizado");
         }
 
         if (convite.getExpiraEm().isBefore(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")))) {
-            throw new IllegalArgumentException("Este convite está expirado.");
+            throw new ConviteInvalidoException("Este convite está expirado.");
         }
     }
 }
